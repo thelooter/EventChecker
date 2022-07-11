@@ -1,4 +1,4 @@
-
+![Build Status](https://github.com/thelooter/EventChecker/actions/workflows/gradle.yml/badge.svg)
 ![Github Issues](https://img.shields.io/github/issues/thelooter/EventChecker)
 ![Github Pull Requests](https://img.shields.io/github/issues-pr/thelooter/EventChecker)
 ![Github Forks](https://img.shields.io/github/forks/thelooter/EventChecker)
