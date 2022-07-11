@@ -32,3 +32,6 @@ jobs:
       uses: gradle/gradle-build-action@15453523bd6fa4b03dba1971719efc781302b46c
       with:
         arguments: build
+
+    - name: Test with Gradle
+      run: ./gradlew test

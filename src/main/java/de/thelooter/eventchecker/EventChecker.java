@@ -4,6 +4,7 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Event;
@@ -21,13 +22,12 @@ import java.util.List;
 
 public class EventChecker extends JavaPlugin implements Listener {
 
-  public EventChecker()
-  {
+  public EventChecker() {
     super();
   }
 
-  protected EventChecker(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
-  {
+  protected EventChecker(
+      JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
     super(loader, description, dataFolder, file);
   }
 
@@ -55,13 +55,23 @@ public class EventChecker extends JavaPlugin implements Listener {
       getLogger().severe("Could not load config file: " + ExceptionUtils.getStackTrace(e));
     }
 
+    boolean blacklist = config.getBoolean("blacklist", false);
     List<String> excludedEvents = config.getStringList("excluded-events");
+
+    boolean whitelist = config.getBoolean("whitelist", false);
+    List<String> includedEvents = config.getStringList("included-events");
+
+    if (blacklist && whitelist) {
+      getLogger().severe("Cannot use both blacklist and whitelist at the same time");
+      Bukkit.getPluginManager().disablePlugin(this);
+      return;
+    }
 
     Listener listener = new Listener() {};
 
     EventExecutor executor = (ignored, event) -> getLogger().info("Event: " + event.getEventName());
 
-    List<ClassInfo> enabledEvents =
+    List<ClassInfo> enabledEventsBlackList =
         events.stream()
             .filter(
                 info -> {
@@ -76,23 +86,58 @@ public class EventChecker extends JavaPlugin implements Listener {
                 })
             .toList();
 
+    List<ClassInfo> enabledEventsWhiteList =
+        events.stream()
+            .filter(
+                info -> {
+                  for (String includedEvent : includedEvents) {
+                    if (info.getName()
+                        .substring(info.getName().lastIndexOf('.') + 1)
+                        .equals(includedEvent)) {
+                      return true;
+                    }
+                  }
+                  return false;
+                })
+            .toList();
+
     try {
-      for (ClassInfo info : enabledEvents) {
+      if (blacklist) {
+        for (ClassInfo info : enabledEventsBlackList) {
 
-        @SuppressWarnings("unchecked")
-        Class<? extends Event> eventClass = (Class<? extends Event>) Class.forName(info.getName());
+          @SuppressWarnings("unchecked")
+          Class<? extends Event> eventClass =
+              (Class<? extends Event>) Class.forName(info.getName());
 
-        if (Arrays.stream(eventClass.getDeclaredMethods())
-            .anyMatch(
-                method ->
-                    method.getParameterCount() == 0 && method.getName().equals("getHandlers"))) {
-          getServer()
-              .getPluginManager()
-              .registerEvent(eventClass, listener, EventPriority.NORMAL, executor, this);
+          if (Arrays.stream(eventClass.getDeclaredMethods())
+              .anyMatch(
+                  method ->
+                      method.getParameterCount() == 0 && method.getName().equals("getHandlers"))) {
+            getServer()
+                .getPluginManager()
+                .registerEvent(eventClass, listener, EventPriority.NORMAL, executor, this);
+          }
+        }
+      }
+      if (whitelist) {
+        for (ClassInfo info : enabledEventsWhiteList) {
+
+          @SuppressWarnings("unchecked")
+          Class<? extends Event> eventClass =
+              (Class<? extends Event>) Class.forName(info.getName());
+
+          if (Arrays.stream(eventClass.getDeclaredMethods())
+              .anyMatch(
+                  method ->
+                      method.getParameterCount() == 0 && method.getName().equals("getHandlers"))) {
+            getServer()
+                .getPluginManager()
+                .registerEvent(eventClass, listener, EventPriority.NORMAL, executor, this);
+          }
         }
       }
     } catch (ClassNotFoundException e) {
-        getLogger().severe("Could not load event: " + ExceptionUtils.getStackTrace(e));
+      getLogger().severe("Could not load event: " + ExceptionUtils.getStackTrace(e));
     }
 
     String[] eventNames =
