@@ -1,7 +1,5 @@
-excluded-events:
-  - ChunkLoadEvent
-  - EntitiesLoadEvent
-  - EntityAddToWorldEvent
-  - com.destroystokyo.paper.event.server.ServerTickEndEvent
-  - com.destroystokyo.paper.event.server.ServerTickStartEvent
-  - EntityMoveEvent
+blacklist: true
+excluded-events: []
+
+whitelist: false
+included-events: []
