@@ -3,6 +3,7 @@ package de.thelooter.eventchecker;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Event;
@@ -39,7 +40,7 @@ public class EventChecker extends JavaPlugin implements Listener {
     try {
       config.load(configFile);
     } catch (Exception e) {
-      e.printStackTrace();
+      getLogger().severe("Could not load config file: " + ExceptionUtils.getStackTrace(e));
     }
 
     List<String> excludedEvents = config.getStringList("excluded-events");
@@ -79,8 +80,7 @@ public class EventChecker extends JavaPlugin implements Listener {
         }
       }
     } catch (ClassNotFoundException e) {
-
-      e.printStackTrace();
+        getLogger().severe("Could not load event: " + ExceptionUtils.getStackTrace(e));
     }
 
     String[] eventNames =
