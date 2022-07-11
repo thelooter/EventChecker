@@ -19,6 +19,7 @@ repositories {
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT"
     implementation 'io.github.classgraph:classgraph:4.8.149'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 }
 
 java {
@@ -28,6 +29,8 @@ java {
 tasks {
     shadowJar {
         relocate('io.github.classgraph', 'de.thelooter.classgraph')
+        relocate('org.spigotmc', 'de.thelooter.spigot')
+        relocate('org.apache.commons', 'de.thelooter.commons')
 
         archiveFileName.set('Eventchecker-Shaded.jar')
     }
