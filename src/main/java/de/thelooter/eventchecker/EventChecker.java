@@ -101,43 +101,12 @@ public class EventChecker extends JavaPlugin implements Listener {
                 })
             .toList();
 
-    try {
-      if (blacklist) {
-        for (ClassInfo info : enabledEventsBlackList) {
-
-          @SuppressWarnings("unchecked")
-          Class<? extends Event> eventClass =
-              (Class<? extends Event>) Class.forName(info.getName());
-
-          if (Arrays.stream(eventClass.getDeclaredMethods())
-              .anyMatch(
-                  method ->
-                      method.getParameterCount() == 0 && method.getName().equals("getHandlers"))) {
-            getServer()
-                .getPluginManager()
-                .registerEvent(eventClass, listener, EventPriority.NORMAL, executor, this);
-          }
-        }
-      }
-      if (whitelist) {
-        for (ClassInfo info : enabledEventsWhiteList) {
-
-          @SuppressWarnings("unchecked")
-          Class<? extends Event> eventClass =
-              (Class<? extends Event>) Class.forName(info.getName());
-
-          if (Arrays.stream(eventClass.getDeclaredMethods())
-              .anyMatch(
-                  method ->
-                      method.getParameterCount() == 0 && method.getName().equals("getHandlers"))) {
-            getServer()
-                .getPluginManager()
-                .registerEvent(eventClass, listener, EventPriority.NORMAL, executor, this);
-          }
-        }
-      }
-    } catch (ClassNotFoundException e) {
-      getLogger().severe("Could not load event: " + ExceptionUtils.getStackTrace(e));
+    if (blacklist) {
+      registerEvents(listener, executor, enabledEventsBlackList);
+    } else if (whitelist) {
+      registerEvents(listener, executor, enabledEventsWhiteList);
+    } else {
+      registerEvents(listener, executor, events);
     }
 
     String[] eventNames =
@@ -150,5 +119,26 @@ public class EventChecker extends JavaPlugin implements Listener {
     getLogger().info("List of Events: " + String.join(", ", eventNames));
     getLogger().info("Number of Events: " + events.size());
     getLogger().info("HandlerList Size:" + HandlerList.getHandlerLists().size());
+  }
+
+  private void registerEvents(
+      Listener listener, EventExecutor executor, List<ClassInfo> enabledEvent) {
+    for (ClassInfo info : enabledEvent) {
+      try {
+        @SuppressWarnings("unchecked")
+        Class<? extends Event> eventClass = (Class<? extends Event>) Class.forName(info.getName());
+
+        if (Arrays.stream(eventClass.getDeclaredMethods())
+            .anyMatch(
+                method ->
+                    method.getParameterCount() == 0 && method.getName().equals("getHandlers"))) {
+          getServer()
+              .getPluginManager()
+              .registerEvent(eventClass, listener, EventPriority.NORMAL, executor, this);
+        }
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+      }
+    }
   }
 }
