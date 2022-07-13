@@ -19,6 +19,7 @@ import org.bukkit.plugin.java.JavaPluginLoader;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventChecker extends JavaPlugin implements Listener {
 
@@ -27,7 +28,7 @@ public class EventChecker extends JavaPlugin implements Listener {
   }
 
   protected EventChecker(
-      JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+          JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
     super(loader, description, dataFolder, file);
   }
 
@@ -84,7 +85,7 @@ public class EventChecker extends JavaPlugin implements Listener {
                   }
                   return true;
                 })
-            .toList();
+            .collect(Collectors.toList());
 
     List<ClassInfo> enabledEventsWhiteList =
         events.stream()
@@ -99,7 +100,8 @@ public class EventChecker extends JavaPlugin implements Listener {
                   }
                   return false;
                 })
-            .toList();
+            .collect(Collectors.toList());
+    ;
 
     if (blacklist) {
       registerEvents(listener, executor, enabledEventsBlackList);

@@ -1,6 +1,5 @@
-name: EventChecker
+name: EventChecker-Legacy
 main: de.thelooter.eventchecker.EventChecker
-version: 1.0.0
+version: 1.1.0
 author: thelooter
-api-version: 1.19
 description: Prints fired events to the console
