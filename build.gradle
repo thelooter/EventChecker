@@ -29,6 +29,8 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 }
 
+version = '1.1.0'
+
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
@@ -39,7 +41,7 @@ tasks {
         relocate('org.spigotmc', 'de.thelooter.spigot')
         relocate('org.apache.commons', 'de.thelooter.commons')
 
-        archiveFileName.set('Eventchecker-Shaded.jar')
+        archiveFileName.set('Eventchecker-' + version + '.jar')
     }
 
     jar.dependsOn('shadowJar')
