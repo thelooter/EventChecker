@@ -21,4 +21,3 @@ Events can be disabled in the config file.
 - Add a command to see all events
 - Add a command to see all events that are enabled
 - Add a command to see all events that are disabled
-- Add the ability to choose between a whitelist and a blacklist
