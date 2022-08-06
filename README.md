@@ -10,6 +10,10 @@
 Plugin to help Developers check which events are getting Fired by the Server.
 Events can be disabled in the config file.
 
+# Features
+- Prints out Events that get Fired
+- Possibilty to switch between a Whitelist and a Blacklist
+
 
 ## Planned Features
 
