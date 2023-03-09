@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT"
-    implementation 'io.github.classgraph:classgraph:4.8.151'
+    implementation 'io.github.classgraph:classgraph:4.8.157'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
