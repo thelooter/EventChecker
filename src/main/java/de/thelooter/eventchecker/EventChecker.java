@@ -1,5 +1,7 @@
 package de.thelooter.eventchecker;
 
+import de.thelooter.eventchecker.commands.EventCheckerCommand;
+import de.thelooter.eventchecker.commands.complete.EventCheckerCommandCompleter;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
@@ -17,8 +19,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class EventChecker extends JavaPlugin implements Listener {
 
@@ -31,6 +35,8 @@ public class EventChecker extends JavaPlugin implements Listener {
     super(loader, description, dataFolder, file);
   }
 
+  public static List<String> eventNames = new ArrayList<>();
+
   @Override
   public void onEnable() {
     ClassInfoList events =
@@ -40,6 +46,8 @@ public class EventChecker extends JavaPlugin implements Listener {
             .getClassInfo(Event.class.getName())
             .getSubclasses()
             .filter(info -> !info.isAbstract());
+
+    events.forEach(event -> eventNames.add(event.getName()));
 
     File configFile = new File(getDataFolder(), "config.yml");
     if (!configFile.exists()) {
@@ -119,6 +127,12 @@ public class EventChecker extends JavaPlugin implements Listener {
     getLogger().info("List of Events: " + String.join(", ", eventNames));
     getLogger().info("Number of Events: " + events.size());
     getLogger().info("HandlerList Size:" + HandlerList.getHandlerLists().size());
+
+    // Register Commands
+    Objects.requireNonNull(getCommand("eventchecker")).setExecutor(new EventCheckerCommand());
+
+    // Register CommandCompletions
+    Objects.requireNonNull(getCommand("eventchecker")).setTabCompleter(new EventCheckerCommandCompleter());
   }
 
   private void registerEvents(
