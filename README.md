@@ -4,6 +4,10 @@
 ![Github Forks](https://img.shields.io/github/forks/thelooter/EventChecker)
 ![Github License](https://img.shields.io/github/license/thelooter/EventChecker)
 ![Github Release](https://img.shields.io/github/v/release/thelooter/EventChecker)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=bugs)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
 
 # Event Checker
 
