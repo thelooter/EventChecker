@@ -31,7 +31,7 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 }
 
-var jarVersion = '1.1.0'
+var jarVersion = '1.2.0'
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
