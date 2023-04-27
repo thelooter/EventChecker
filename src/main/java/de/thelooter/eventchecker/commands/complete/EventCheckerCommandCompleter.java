@@ -19,23 +19,17 @@ public class EventCheckerCommandCompleter implements TabCompleter {
             return List.of("reload", "list");
         }
 
-        if (args.length == 2) {
-            if (args[0].equals("list")) {
-                return List.of("all");
-            }
+        if (args.length == 2 && args[0].equals("list")) {
+            return List.of("all");
         }
 
-        if (args.length == 3) {
-            if (args[0].equals("list")) {
-                if (args[1].equals("all")) {
-                    List<Integer> pages = new ArrayList<>();
-                    for (int i = 0; i < Lists.partition(EventChecker.eventNames, 50).size(); i++) {
-                        pages.add(i+1);
-                    }
-                    return pages.stream().map(String::valueOf).toList();
-                }
-
+        if (args.length == 3 && args[0].equals("list") && args[1].equals("all")) {
+            List<Integer> pages = new ArrayList<>();
+            for (int i = 0; i < Lists.partition(EventChecker.EVENT_NAMES, 50).size(); i++) {
+                pages.add(i + 1);
             }
+            return pages.stream().map(String::valueOf).toList();
+
         }
 
         return Collections.emptyList();

@@ -26,7 +26,7 @@ import java.util.Objects;
 
 public class EventChecker extends JavaPlugin implements Listener {
 
-  public static List<String> eventNames = new ArrayList<>();
+  public static final List<String> EVENT_NAMES = new ArrayList<>();
 
   @Override
   public void onEnable() {
@@ -38,7 +38,7 @@ public class EventChecker extends JavaPlugin implements Listener {
             .getSubclasses()
             .filter(info -> !info.isAbstract());
 
-    events.forEach(event -> eventNames.add(event.getName()));
+    events.forEach(event -> EVENT_NAMES.add(event.getName()));
 
     File configFile = new File(getDataFolder(), "config.yml");
     if (!configFile.exists()) {
