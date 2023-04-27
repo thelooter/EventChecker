@@ -12,12 +12,12 @@ Events can be disabled in the config file.
 
 # Features
 - Prints out Events that get Fired
-- Possibilty to switch between a Whitelist and a Blacklist
+- Possibility to switch between a Whitelist and a Blacklist
+- List All Events that are possible to be Fired
 
 
 ## Planned Features
 
 - Add a command to disable/enable events
-- Add a command to see all events
 - Add a command to see all events that are enabled
 - Add a command to see all events that are disabled

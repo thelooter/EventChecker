@@ -4,3 +4,14 @@ version: 1.0.0
 author: thelooter
 api-version: 1.13
 description: Prints fired events to the console
+
+commands:
+  eventchecker:
+    description: Eventchecker Command
+    permission: eventchecker.admin
+    usage: /eventchecker <option>
+
+permissions:
+  eventchecker.admin:
+    description: Admin Permission
+    default: op
