@@ -47,6 +47,7 @@ tasks {
     }
 
     jar.dependsOn('shadowJar')
+    jar.dependsOn('test')
 }
 
 test {

@@ -26,15 +26,6 @@ import java.util.Objects;
 
 public class EventChecker extends JavaPlugin implements Listener {
 
-  public EventChecker() {
-    super();
-  }
-
-  protected EventChecker(
-      JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
-    super(loader, description, dataFolder, file);
-  }
-
   public static List<String> eventNames = new ArrayList<>();
 
   @Override
