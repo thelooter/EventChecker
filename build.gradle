@@ -23,7 +23,7 @@ dependencies {
     compileOnly "org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT"
     compileOnly 'org.jetbrains:annotations:24.0.1'
 
-    implementation 'io.github.classgraph:classgraph:4.8.151'
+    implementation 'io.github.classgraph:classgraph:4.8.161'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
