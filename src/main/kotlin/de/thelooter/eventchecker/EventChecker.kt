@@ -99,7 +99,7 @@ open class EventChecker : JavaPlugin() {
                 @Suppress("UNCHECKED_CAST")
                 val eventClass = Class.forName(it.name) as Class<out Event?>
                 if (Arrays.stream(eventClass.declaredMethods).anyMatch { method ->
-                        method.parameterCount == 0 && method.name.equals("getHandlers")
+                        method.parameterCount == 0 && method.name == "getHandlers"
                     }) {
                     server.pluginManager.registerEvent(
                         eventClass,
