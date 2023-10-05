@@ -1,0 +1,31 @@
+package de.thelooter.eventchecker
+
+import be.seeseemelk.mockbukkit.MockBukkit
+import be.seeseemelk.mockbukkit.ServerMock
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+
+class EventCheckerTest {
+    private var server: ServerMock? = null
+    private var eventChecker: EventChecker? = null
+
+    @BeforeEach
+    fun setUp() {
+        server = MockBukkit.mock()
+        eventChecker = MockBukkit.load(EventChecker::class.java)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        MockBukkit.unmock()
+    }
+
+    @Test
+    fun test() {
+        Assertions.assertNotNull(eventChecker)
+        Assertions.assertTrue(eventChecker!!.isEnabled)
+        Assertions.assertInstanceOf(EventChecker::class.java, eventChecker)
+    }
+}
