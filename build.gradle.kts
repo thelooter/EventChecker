@@ -18,7 +18,7 @@ dependencies {
 
     implementation("io.github.classgraph:classgraph:4.8.161")
     implementation("org.apache.commons:commons-lang3:3.12.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.24.1")
