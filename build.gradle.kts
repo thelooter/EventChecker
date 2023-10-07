@@ -17,7 +17,7 @@ dependencies {
     compileOnly("org.jetbrains:annotations:24.0.1")
 
     implementation("io.github.classgraph:classgraph:4.8.162")
-    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("org.apache.commons:commons-lang3:3.13.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
