@@ -20,7 +20,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.13.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.31.0")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
 }
