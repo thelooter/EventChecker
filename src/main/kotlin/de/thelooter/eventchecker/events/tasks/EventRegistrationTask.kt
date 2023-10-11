@@ -7,10 +7,7 @@ import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.plugin.EventExecutor
-import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
-import java.util.logging.Logger
-import javax.inject.Inject
 
 class EventRegistrationTask(private val event: ClassInfo) : EventTask {
 
