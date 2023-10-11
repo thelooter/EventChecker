@@ -21,7 +21,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.31.0")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.32.1")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
 }
 
