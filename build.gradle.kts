@@ -17,11 +17,11 @@ dependencies {
     compileOnly("org.jetbrains:annotations:24.0.1")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10")
-    implementation("io.github.classgraph:classgraph:4.8.162")
+    implementation("io.github.classgraph:classgraph:4.8.163")
     implementation("org.apache.commons:commons-lang3:3.13.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.31.0")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.32.1")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
 }
 
