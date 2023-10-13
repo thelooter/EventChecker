@@ -2,15 +2,14 @@ package de.thelooter.eventchecker
 
 import de.thelooter.eventchecker.commands.EventCheckerCommand
 import de.thelooter.eventchecker.commands.complete.EventCheckerCommandCompleter
+import de.thelooter.eventchecker.events.EventTaskManager
+import de.thelooter.eventchecker.events.tasks.EventRegistrationTask
 import io.github.classgraph.ClassGraph
 import io.github.classgraph.ClassInfo
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.event.Event
-import org.bukkit.event.EventPriority
 import org.bukkit.event.HandlerList
-import org.bukkit.event.Listener
-import org.bukkit.plugin.EventExecutor
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.util.*
@@ -19,15 +18,19 @@ open class EventChecker : JavaPlugin() {
 
     companion object {
         var eventNames: MutableList<String> = ArrayList()
+        lateinit var instance: JavaPlugin
+        private val eventTaskManager = EventTaskManager()
     }
 
     override fun onEnable() {
+        instance = this
         val events = ClassGraph()
             .enableClassInfo()
             .scan()
             .getClassInfo(Event::class.java.getName())
             .subclasses
             .filter { info: ClassInfo -> !info.isAbstract }
+
 
         events.forEach {
             eventNames.add(it.name)
@@ -59,13 +62,6 @@ open class EventChecker : JavaPlugin() {
             return
         }
 
-        val listener = object : Listener {}
-
-        val executor = EventExecutor { _: Listener?, event: Event ->
-            logger.info(
-                "Event: " + event.getEventName()
-            )
-        }
 
         val enabledEventsBlackList: List<ClassInfo> = events.filter {
             !excludedEvents.contains(it.name)
@@ -76,11 +72,11 @@ open class EventChecker : JavaPlugin() {
         }
 
         if (blackList) {
-            registerEvents(listener, executor, enabledEventsBlackList)
+            registerEvents(enabledEventsBlackList)
         } else if (whiteList) {
-            registerEvents(listener, executor, enabledEventsWhiteList)
+            registerEvents(enabledEventsWhiteList)
         } else {
-            registerEvents(listener, executor, events)
+            registerEvents(events)
         }
 
         val eventNames = events.map { it.name.substring(it.name.lastIndexOf(".") + 1) }
@@ -92,28 +88,12 @@ open class EventChecker : JavaPlugin() {
         getCommand("eventchecker")?.tabCompleter = EventCheckerCommandCompleter()
     }
 
-    private fun registerEvents(listener: Listener, executor: EventExecutor, enabledEvent: List<ClassInfo>) {
+    private fun registerEvents(enabledEvent: List<ClassInfo>) {
         enabledEvent.forEach {
-            try {
-
-                @Suppress("UNCHECKED_CAST")
-                val eventClass = Class.forName(it.name) as Class<out Event?>
-                if (Arrays.stream(eventClass.declaredMethods).anyMatch { method ->
-                        method.parameterCount == 0 && method.name == "getHandlers"
-                    }) {
-                    server.pluginManager.registerEvent(
-                        eventClass,
-                        listener,
-                        EventPriority.NORMAL,
-                        executor,
-                        this
-                    )
-                }
-
-            } catch (e: ClassNotFoundException) {
-                logger.severe("Could not find class: " + ExceptionUtils.getStackTrace(e))
-            }
+            eventTaskManager.addTask(EventRegistrationTask(it))
         }
+
+        eventTaskManager.processTasks()
     }
 
 }
