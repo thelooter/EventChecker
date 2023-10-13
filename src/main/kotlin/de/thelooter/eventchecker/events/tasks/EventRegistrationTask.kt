@@ -34,8 +34,7 @@ class EventRegistrationTask(private val event: ClassInfo) : EventTask {
         return "registration"
     }
 
-    override fun execute(): CompletableFuture<Void> {
-        return CompletableFuture.runAsync {
+    override suspend fun execute() {
             this.state = EventTask.State.RUNNING
             val executor = EventExecutor { _: Listener?, event: Event ->
                 EventChecker.instance.logger.info(
@@ -63,7 +62,6 @@ class EventRegistrationTask(private val event: ClassInfo) : EventTask {
             }
 
             this.state = EventTask.State.FINISHED
-        }
     }
 
     override fun getTaskState(): EventTask.State {

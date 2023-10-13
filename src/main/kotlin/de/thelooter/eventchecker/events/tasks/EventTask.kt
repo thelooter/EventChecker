@@ -33,7 +33,7 @@ interface EventTask {
      * @param event The Event that should be used
      * @since 1.3.0
      */
-    fun execute():CompletableFuture<Void>
+    suspend fun execute()
 
     /**
      * Gets the State of the Task
