@@ -1,12 +1,14 @@
 package de.thelooter.eventchecker.events
 
 import de.thelooter.eventchecker.events.tasks.EventTask
+import kotlinx.coroutines.runBlocking
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 
 class EventTaskManager {
 
-    private val tasks: MutableList<EventTask> = ArrayList()
+    private val tasks: ArrayDeque<EventTask> = ArrayDeque()
+
 
     /**
      * Adds a new Task to the TaskManager
@@ -14,7 +16,7 @@ class EventTaskManager {
      * @since 1.3.0
      */
     fun addTask(task: EventTask) {
-        tasks.add(task)
+        tasks.addLast(task)
     }
 
     /**
@@ -57,6 +59,11 @@ class EventTaskManager {
      * @since 1.3.0
      */
     fun processTasks() {
-        tasks.forEach { task -> task.execute() }
+        while (tasks.isNotEmpty()) {
+            val task = tasks.removeFirst()
+            runBlocking {
+                task.execute()
+            }
+        }
     }
 }

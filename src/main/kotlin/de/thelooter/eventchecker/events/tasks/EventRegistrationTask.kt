@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.plugin.EventExecutor
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 class EventRegistrationTask(private val event: ClassInfo) : EventTask {
 
@@ -33,34 +34,36 @@ class EventRegistrationTask(private val event: ClassInfo) : EventTask {
         return "registration"
     }
 
-    override fun execute() {
-        this.state = EventTask.State.RUNNING
-        val executor = EventExecutor { _: Listener?, event: Event ->
-            EventChecker.instance.logger.info(
-                "Event: " + event.getEventName()
-            )
-        }
-
-        try {
-            @Suppress("UNCHECKED_CAST")
-            val eventClass = Class.forName(event.name) as Class<out Event?>
-            if (Arrays.stream(eventClass.declaredMethods).anyMatch { method ->
-                    method.parameterCount == 0 && method.name == "getHandlers"
-                }) {
-                EventChecker.instance.server.pluginManager.registerEvent(
-                    eventClass,
-                    listener,
-                    EventPriority.NORMAL,
-                    executor,
-                    EventChecker.instance
+    override fun execute(): CompletableFuture<Void> {
+        return CompletableFuture.runAsync {
+            this.state = EventTask.State.RUNNING
+            val executor = EventExecutor { _: Listener?, event: Event ->
+                EventChecker.instance.logger.info(
+                    "Event: " + event.getEventName()
                 )
             }
 
-        } catch (e: ClassNotFoundException) {
-            EventChecker.instance.logger.severe("Could not find class: " + ExceptionUtils.getStackTrace(e))
-        }
+            try {
+                @Suppress("UNCHECKED_CAST")
+                val eventClass = Class.forName(event.name) as Class<out Event?>
+                if (Arrays.stream(eventClass.declaredMethods).anyMatch { method ->
+                        method.parameterCount == 0 && method.name == "getHandlers"
+                    }) {
+                    EventChecker.instance.server.pluginManager.registerEvent(
+                        eventClass,
+                        listener,
+                        EventPriority.NORMAL,
+                        executor,
+                        EventChecker.instance
+                    )
+                }
 
-        this.state = EventTask.State.FINISHED
+            } catch (e: ClassNotFoundException) {
+                EventChecker.instance.logger.severe("Could not find class: " + ExceptionUtils.getStackTrace(e))
+            }
+
+            this.state = EventTask.State.FINISHED
+        }
     }
 
     override fun getTaskState(): EventTask.State {

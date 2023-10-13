@@ -3,6 +3,7 @@ package de.thelooter.eventchecker.events.tasks
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.plugin.EventExecutor
+import java.util.concurrent.CompletableFuture
 
 interface EventTask {
 
@@ -32,7 +33,7 @@ interface EventTask {
      * @param event The Event that should be used
      * @since 1.3.0
      */
-    fun execute()
+    fun execute():CompletableFuture<Void>
 
     /**
      * Gets the State of the Task
