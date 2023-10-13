@@ -8,7 +8,6 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.plugin.EventExecutor
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 class EventRegistrationTask(private val event: ClassInfo) : EventTask {
 
