@@ -3,6 +3,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     jacoco
     id("org.sonarqube") version "4.4.1.3373"
+    id("maven-publish")
 }
 
 repositories {
@@ -70,5 +71,28 @@ sonar {
         property("sonar.projectKey", "thelooter_EventChecker")
         property("sonar.organization", "thelooter")
         property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "de.thelooter"
+            artifactId = "EventChecker"
+            version = jarVersion
+
+            from(components["java"])
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/thelooter/EventChecker")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
