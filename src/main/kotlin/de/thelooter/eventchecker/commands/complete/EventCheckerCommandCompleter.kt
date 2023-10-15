@@ -6,6 +6,11 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 
+/**
+ * The TabCompleter for the EventChecker Command
+ * @see TabCompleter
+ * @since 1.2.0
+ */
 class EventCheckerCommandCompleter : TabCompleter {
     override fun onTabComplete(
         sender: CommandSender,

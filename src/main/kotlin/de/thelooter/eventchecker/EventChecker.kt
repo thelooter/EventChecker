@@ -31,7 +31,6 @@ open class EventChecker : JavaPlugin() {
             .subclasses
             .filter { info: ClassInfo -> !info.isAbstract }
 
-
         events.forEach {
             eventNames.add(it.name)
         }
@@ -62,13 +61,12 @@ open class EventChecker : JavaPlugin() {
             return
         }
 
-
         val enabledEventsBlackList: List<ClassInfo> = events.filter {
-            !excludedEvents.contains(it.name)
+            !excludedEvents.contains(it.name.substring(it.name.lastIndexOf(".") + 1))
         }
 
         val enabledEventsWhiteList: List<ClassInfo> = events.filter {
-            includedEvents.contains(it.name)
+            includedEvents.contains(it.name.substring(it.name.lastIndexOf(".") + 1))
         }
 
         if (blackList) {
@@ -79,21 +77,30 @@ open class EventChecker : JavaPlugin() {
             registerEvents(events)
         }
 
-        val eventNames = events.map { it.name.substring(it.name.lastIndexOf(".") + 1) }
-        logger.info("Enabled events: " + eventNames.joinToString(", "))
-        logger.info("Number of enabled events: " + eventNames.size)
         logger.info("HandlerList size: " + HandlerList.getHandlerLists().size)
 
         getCommand("eventchecker")?.setExecutor(EventCheckerCommand())
         getCommand("eventchecker")?.tabCompleter = EventCheckerCommandCompleter()
     }
 
+    /**
+     * Registers all events in the given list.
+     * @param enabledEvent The list of events to register.
+     *
+     * @since 1.3.0
+     */
     private fun registerEvents(enabledEvent: List<ClassInfo>) {
         enabledEvent.forEach {
             eventTaskManager.addTask(EventRegistrationTask(it))
         }
 
         eventTaskManager.processTasks()
+
+        val eventNames = enabledEvent.map {
+            it.name.substring(it.name.lastIndexOf(".") + 1)
+        }
+        logger.info("Enabled events: " + eventNames.joinToString(", "))
+        logger.info("Number of enabled events: " + eventNames.size)
     }
 
 }
