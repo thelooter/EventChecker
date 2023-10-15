@@ -7,6 +7,11 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import java.util.function.Consumer
 
+/**
+ * The CommandExecutor for the EventChecker Command
+ * @see CommandExecutor
+ * @since 1.2.0
+ */
 class EventCheckerCommand : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
 
