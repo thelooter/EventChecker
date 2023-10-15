@@ -39,7 +39,7 @@ tasks {
         relocate("io.github.classgraph", "de.thelooter.classgraph")
         relocate("org.apache.commons", "de.thelooter.commons")
 
-        archiveFileName.set("EventChecker-$jarVersion.jar")
+        archiveFileName.set("eventchecker-$jarVersion.jar")
     }
 
     jar {
@@ -78,7 +78,7 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = "de.thelooter"
-            artifactId = "EventChecker"
+            artifactId = "eventchecker"
             version = jarVersion
 
             from(components["java"])
