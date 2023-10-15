@@ -26,7 +26,7 @@ dependencies {
     testImplementation("org.hamcrest:hamcrest-library:2.2")
 }
 
-val jarVersion = "1.2.0"
+val jarVersion = "1.3.0"
 
 tasks {
 
