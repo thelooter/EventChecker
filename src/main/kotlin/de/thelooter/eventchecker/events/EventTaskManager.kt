@@ -22,6 +22,15 @@ class EventTaskManager {
     /**
      * Removes a Task from the TaskManager
      * @param task The Task that should be removed
+     * @return True if the Task was removed, false if not
+     */
+    fun removeTask(task: EventTask): Boolean {
+        return tasks.remove(task)
+    }
+
+    /**
+     * Gets all Tasks from the TaskManager
+     * @return All Tasks
      * @since 1.3.0
      */
     fun getTasks(): List<EventTask> {

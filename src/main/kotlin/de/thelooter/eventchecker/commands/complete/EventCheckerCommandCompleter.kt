@@ -23,21 +23,38 @@ class EventCheckerCommandCompleter : TabCompleter {
         }
 
         if (args.size == 2 && args[0] == "list") {
-            return listOf("all")
+            return listOf("all", "blacklist", "whitelist")
         }
 
-        if (args.size == 3 && args[0] == "list" && args[1] == "all") {
-            val pages: MutableList<Int> = ArrayList()
-            for (i in Lists.partition<String>(EventChecker.eventNames, 50).indices) {
-                pages.add(i + 1)
+        if (args.size == 3 && args[0] == "list") {
+            val pageSize = 25
+            if (args[1] == "all") {
+                val pages: MutableList<Int> = ArrayList()
+                for (i in Lists.partition<String>(EventChecker.instance.eventNames, pageSize).indices) {
+                    pages.add(i + 1)
+                }
+                return pages.stream().map { obj: Int? -> "$obj"}.toList()
             }
-            return pages.stream().map { obj: Int? ->
-                java.lang.String.valueOf(
-                    obj
-                )
-            }.toList()
+
+            if (args[1] == "blacklist") {
+                val pages: MutableList<Int> = ArrayList()
+                for (i in Lists.partition<String>(EventChecker.instance.config.getStringList("excluded-events"),
+                    pageSize).indices) {
+                    pages.add(i + 1)
+                }
+                return pages.stream().map { obj: Int? -> "$obj"}.toList()
+            }
+
+            if (args[1] == "whitelist") {
+                val pages: MutableList<Int> = ArrayList()
+                for (i in Lists.partition<String>(EventChecker.instance.config.getStringList("included-events"),
+                    pageSize).indices) {
+                    pages.add(i + 1)
+                }
+                return pages.stream().map { obj: Int? -> "$obj"}.toList()
+            }
         }
 
-        return emptyList<String>()
+        return emptyList()
     }
 }

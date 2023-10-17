@@ -17,10 +17,13 @@ import java.util.*
 open class EventChecker : JavaPlugin() {
 
     companion object {
-        var eventNames: MutableList<String> = ArrayList()
-        lateinit var instance: JavaPlugin
-        private val eventTaskManager = EventTaskManager()
+        lateinit var instance: EventChecker
+            private set
     }
+
+    var eventNames: MutableList<String> = ArrayList()
+        private set
+    val eventTaskManager = EventTaskManager()
 
     override fun onEnable() {
         instance = this
