@@ -59,9 +59,9 @@ tasks {
         reports {
             xml.required.set(true)
             html.required.set(true)
-
             html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
         }
+        dependsOn(test)
     }
 
 }
@@ -73,6 +73,7 @@ sonar {
         property("sonar.host.url", "https://sonarcloud.io")
     }
 }
+
 
 publishing {
     publications {
