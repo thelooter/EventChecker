@@ -16,6 +16,7 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=bugs)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=coverage)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
 
 Plugin to help Developers check which events are getting Fired by the Server.
 Events can be disabled in the config file.
