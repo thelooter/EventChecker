@@ -64,6 +64,10 @@ tasks {
         dependsOn(test)
     }
 
+    build {
+        dependsOn(jacocoTestReport)
+    }
+
 }
 
 sonar {
