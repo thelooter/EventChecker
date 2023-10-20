@@ -74,6 +74,7 @@ sonar {
     properties {
         property("sonar.projectKey", "thelooter_EventChecker")
         property("sonar.organization", "thelooter")
+        property("sonar.projectVersion", jarVersion)
         property("sonar.host.url", "https://sonarcloud.io")
     }
 }
