@@ -10,7 +10,7 @@ interface EventTask {
      * @return The Type of the Event
      * @since 1.3.0
      */
-    fun getEventType(): Class<out Event>
+    fun getEventType(): Class<out Event>?
 
     /**
      * Gets the EventPriority that should be used
@@ -40,6 +40,6 @@ interface EventTask {
     fun getTaskState(): State
 
     enum class State {
-        SCHEDULED, RUNNING, FINISHED
+        SCHEDULED, RUNNING, FINISHED, FAILED
     }
 }

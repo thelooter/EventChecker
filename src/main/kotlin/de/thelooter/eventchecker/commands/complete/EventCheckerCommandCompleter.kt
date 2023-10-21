@@ -22,20 +22,26 @@ class EventCheckerCommandCompleter : TabCompleter {
             return listOf("reload", "list")
         }
 
-        if (args.size == 2 && args[0] == "list") {
-            return listOf("all")
+        if (args.size == 2) {
+            if (args[0] == "list") {
+                return listOf("all")
+            }
         }
 
-        if (args.size == 3 && args[0] == "list" && args[1] == "all") {
-            val pages: MutableList<Int> = ArrayList()
-            for (i in Lists.partition<String>(EventChecker.eventNames, 50).indices) {
-                pages.add(i + 1)
+        if (args.size == 3) {
+            if (args[0] == "list") {
+                if (args[1] == "all") {
+                    val pages: MutableList<Int> = ArrayList()
+                    for (i in Lists.partition<String>(EventChecker.eventNames, 50).indices) {
+                        pages.add(i + 1)
+                    }
+                    return pages.stream().map { obj: Int? ->
+                        java.lang.String.valueOf(
+                            obj
+                        )
+                    }.toList()
+                }
             }
-            return pages.stream().map { obj: Int? ->
-                java.lang.String.valueOf(
-                    obj
-                )
-            }.toList()
         }
 
         return emptyList<String>()

@@ -17,7 +17,8 @@ internal class EventCheckerCommandCompleterTest {
 
     @MockBukkitInject
     private lateinit var server: ServerMock
-    private lateinit var player : PlayerMock
+    private lateinit var player: PlayerMock
+
     @BeforeEach
     fun setUp() {
         MockBukkit.load(EventChecker::class.java)
@@ -48,4 +49,24 @@ internal class EventCheckerCommandCompleterTest {
         val commandTabComplete = server.getCommandTabComplete(player, "eventchecker list all 1 ")
         assertTrue(commandTabComplete.isEmpty())
     }
+
+    @Test
+    fun testComplete2ArgsNotList() {
+        val commandTabComplete = server.getCommandTabComplete(player, "eventchecker reload ")
+        assertTrue(commandTabComplete.isEmpty())
+    }
+
+    @Test
+    fun testComplete3ArgsNotList() {
+        val commandTabComplete = server.getCommandTabComplete(player, "eventchecker reload 1 ")
+        assertTrue(commandTabComplete.isEmpty())
+    }
+
+    @Test
+    fun testComplete3ArgsNotAll() {
+        val commandTabComplete = server.getCommandTabComplete(player, "eventchecker list test 2 ")
+        assertTrue(commandTabComplete.isEmpty())
+    }
+
 }
+

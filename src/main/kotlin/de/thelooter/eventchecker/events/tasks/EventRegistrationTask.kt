@@ -16,13 +16,12 @@ class EventRegistrationTask(private val event: ClassInfo) : EventTask {
 
 
     @Suppress("UNCHECKED_CAST")
-    override fun getEventType(): Class<out Event> {
-        return try {
-            event.loadClass() as Class<out Event>
-        } catch (e: ClassNotFoundException) {
-            EventChecker.instance.logger.severe("Could not find class: " + ExceptionUtils.getStackTrace(e))
-            Event::class.java
+    override fun getEventType(): Class<out Event>? {
+        if (!event.superclasses.any { it.name == Event::class.java.name }) {
+            EventChecker.instance.logger.severe("Class " + event.name + " does not extend " + Event::class.java.name)
+            return null;
         }
+        return event.loadClass() as Class<out Event>
     }
 
     override fun getEventPriority(): EventPriority {
@@ -34,33 +33,35 @@ class EventRegistrationTask(private val event: ClassInfo) : EventTask {
     }
 
     override suspend fun execute() {
-            this.state = EventTask.State.RUNNING
-            val executor = EventExecutor { _: Listener?, event: Event ->
-                EventChecker.instance.logger.info(
-                    "Event: " + event.getEventName()
-                )
-            }
+        this.state = EventTask.State.RUNNING
 
-            try {
-                @Suppress("UNCHECKED_CAST")
-                val eventClass = Class.forName(event.name) as Class<out Event?>
-                if (Arrays.stream(eventClass.declaredMethods).anyMatch { method ->
-                        method.parameterCount == 0 && method.name == "getHandlers"
-                    }) {
-                    EventChecker.instance.server.pluginManager.registerEvent(
-                        eventClass,
-                        listener,
-                        EventPriority.NORMAL,
-                        executor,
-                        EventChecker.instance
-                    )
-                }
+        if (!event.superclasses.any { it.name == Event::class.java.name }) {
+            EventChecker.instance.logger.severe("Class " + event.name + " does not extend " + Event::class.java.name)
+            this.state = EventTask.State.FAILED
+            return;
+        }
 
-            } catch (e: ClassNotFoundException) {
-                EventChecker.instance.logger.severe("Could not find class: " + ExceptionUtils.getStackTrace(e))
-            }
+        val executor = EventExecutor { _: Listener?, event: Event ->
+            EventChecker.instance.logger.info(
+                "Event: " + event.getEventName()
+            )
+        }
 
-            this.state = EventTask.State.FINISHED
+        @Suppress("UNCHECKED_CAST")
+        val eventClass = event.loadClass() as Class<out Event>
+        if (Arrays.stream(eventClass.declaredMethods).anyMatch { method ->
+                method.parameterCount == 0 && method.name == "getHandlers"
+            }) {
+            EventChecker.instance.server.pluginManager.registerEvent(
+                eventClass,
+                listener,
+                EventPriority.NORMAL,
+                executor,
+                EventChecker.instance
+            )
+        }
+
+        this.state = EventTask.State.FINISHED
     }
 
     override fun getTaskState(): EventTask.State {
