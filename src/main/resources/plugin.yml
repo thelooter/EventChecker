@@ -8,7 +8,6 @@ description: Prints fired events to the console
 commands:
   eventchecker:
     description: Eventchecker Command
-    permission: eventchecker.admin
     usage: /eventchecker <option>
 
 permissions:
