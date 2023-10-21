@@ -27,8 +27,7 @@ internal class EventCheckerCommandTest {
     @Test
     fun testNoPerm() {
         player.performCommand("eventchecker")
-        player.assertSaid("§cI'm sorry, but you do not have permission to perform this command. "+"" +
-                "Please contact the server administrators if you believe that this is in error.")
+        player.assertSaid("§cYou don't have the permission to execute the command")
     }
 
     @Test
