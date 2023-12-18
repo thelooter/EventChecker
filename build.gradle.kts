@@ -23,7 +23,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.56.0")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.58.0")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
 }
 
