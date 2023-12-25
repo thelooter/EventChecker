@@ -31,13 +31,10 @@ class EventCheckerCommandCompleter : TabCompleter {
             for (i in Lists.partition<String>(EventChecker.eventNames, 50).indices) {
                 pages.add(i + 1)
             }
-            return pages.stream().map { obj: Int? ->
-                java.lang.String.valueOf(
-                    obj
-                )
-            }.toList()
+
+            return pages.map { it.toString() }
         }
 
-        return emptyList<String>()
+        return emptyList()
     }
 }
