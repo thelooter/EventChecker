@@ -51,7 +51,7 @@ class EventTaskManager {
     * @return All Tasks with the given [EventPriority]
      */
     fun getTasksByPriority(priority: EventPriority): List<EventTask> {
-        return tasks.filter { task -> task.getEventPriority() == priority }
+        return tasks.filter { it.getEventPriority() == priority }
     }
 
     /**

@@ -15,39 +15,41 @@ import java.util.function.Consumer
 class EventCheckerCommand : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
 
-        if (!sender.hasPermission("eventchecker.admin")) {
-            sender.sendMessage("§cYou don't have the permission to execute the command")
-            return true
-        }
-
-        if (args?.isEmpty() == true) {
-            sender.sendMessage("§cUsage: /eventchecker <reload|list>")
-            return false
-        }
-
-        if (args!!.size == 1 && args[0] == "list") {
-            sender.sendMessage("§cUsage: /eventchecker list <all> <page>")
-            return true
-        }
-
-        if (args.size == 2 && args[0] == "list" && args[1] == "all") {
-            sender.sendMessage("§cUsage: /eventchecker list all <page>")
-            return true
-        }
-
-        if (args[0] == "list" && args[1] == "all") {
-            val partition = Lists.partition<String>(EventChecker.eventNames, 50)
-            val page = args[2].toInt()
-            if (page > partition.size + 1) {
-                sender.sendMessage("§cThis page does not exist!")
+        args?.let {
+            if (!sender.hasPermission("eventchecker.admin")) {
+                sender.sendMessage("§cYou don't have the permission to execute the command")
                 return true
             }
-            sender.sendMessage("§7Events (Page $page):")
-            partition[page - 1].forEach(Consumer { event: String ->
-                sender.sendMessage(
-                    "§8- §7$event"
-                )
-            })
+
+            if (it.isEmpty()) {
+                sender.sendMessage("§cUsage: /eventchecker <reload|list>")
+                return false
+            }
+
+            if (it.size == 1 && it[0] == "list") {
+                sender.sendMessage("§cUsage: /eventchecker list <all> <page>")
+                return true
+            }
+
+            if (it.size == 2 && it[0] == "list" && it[1] == "all") {
+                sender.sendMessage("§cUsage: /eventchecker list all <page>")
+                return true
+            }
+
+            if (it[0] == "list" && it[1] == "all") {
+                val partition = Lists.partition<String>(EventChecker.eventNames, 50)
+                val page = it[2].toInt()
+                if (page > partition.size + 1) {
+                    sender.sendMessage("§cThis page does not exist!")
+                    return true
+                }
+                sender.sendMessage("§7Events (Page $page):")
+                partition[page - 1].forEach(Consumer { event: String ->
+                    sender.sendMessage(
+                        "§8- §7$event"
+                    )
+                })
+            }
         }
 
         return true

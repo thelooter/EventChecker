@@ -22,6 +22,10 @@ open class EventChecker : JavaPlugin() {
         private val eventTaskManager = EventTaskManager()
     }
 
+    /**
+     * This method is the onEnable() method of the EventChecker class. It is called when the plugin is enabled.
+     * It performs various setup and initialization tasks.
+     */
     override fun onEnable() {
         instance = this
         val events = ClassGraph()
@@ -35,20 +39,22 @@ open class EventChecker : JavaPlugin() {
             eventNames.add(it.name)
         }
 
-        val configFile = File(dataFolder, "config.yml")
-
-        if (!configFile.exists()) {
-            configFile.parentFile.mkdirs()
-            saveDefaultConfig()
+        val configFile = File(dataFolder, "config.yml").apply {
+            if (!exists()) {
+                parentFile.mkdirs()
+                saveDefaultConfig()
+            }
         }
 
-        val config = YamlConfiguration()
 
-        try {
-            config.load(configFile)
-        } catch (e: Exception) {
-            logger.severe("Could not load config.yml: " + ExceptionUtils.getStackTrace(e))
+        val config = YamlConfiguration().apply {
+            try {
+                load(configFile)
+            } catch (e: Exception) {
+                logger.severe("Could not load config.yml: ${ExceptionUtils.getStackTrace(e)}")
+            }
         }
+
 
         val blackList = config.getBoolean("blacklist", false)
         val excludedEvents = config.getStringList("excluded-events")
@@ -70,17 +76,19 @@ open class EventChecker : JavaPlugin() {
         }
 
         if (blackList) {
-            registerEvents(enabledEventsBlackList)
+            this registerEvents enabledEventsBlackList
         } else if (whiteList) {
-            registerEvents(enabledEventsWhiteList)
+            this registerEvents enabledEventsWhiteList
         } else {
-            registerEvents(events)
+            this registerEvents events
         }
 
         logger.info("HandlerList size: " + HandlerList.getHandlerLists().size)
 
-        getCommand("eventchecker")?.setExecutor(EventCheckerCommand())
-        getCommand("eventchecker")?.tabCompleter = EventCheckerCommandCompleter()
+        getCommand("eventchecker")?.apply {
+            setExecutor(EventCheckerCommand())
+            tabCompleter = EventCheckerCommandCompleter()
+        }
     }
 
     /**
@@ -89,7 +97,7 @@ open class EventChecker : JavaPlugin() {
      *
      * @since 1.3.0
      */
-    private fun registerEvents(enabledEvent: List<ClassInfo>) {
+    private infix fun registerEvents(enabledEvent: List<ClassInfo>) {
         enabledEvent.forEach {
             eventTaskManager.addTask(EventRegistrationTask(it))
         }
