@@ -17,10 +17,13 @@ class EventCheckerCommandCompleter : TabCompleter {
         command: Command,
         label: String,
         args: Array<out String>?
-    ): List<String>? {
-        if (args!!.size == 1) {
-            return listOf("reload", "list")
-        }
+    ): List<String> {
+
+        args?.let { it ->
+
+            if (it.size == 1) {
+                return listOf("reload", "list")
+            }
 
         if (args.size == 2 && args[0] == "list") {
             return listOf("all")
@@ -30,11 +33,41 @@ class EventCheckerCommandCompleter : TabCompleter {
             val pages: MutableList<Int> = ArrayList()
             for (i in Lists.partition<String>(EventChecker.eventNames, 50).indices) {
                 pages.add(i + 1)
+            if (it.size == 2) {
+                if (it[0] == "list") {
+                    return listOf("all", "blacklist", "whitelist")
+                }
             }
 
-            return pages.map { it.toString() }
-        }
+            if (it.size == 3) {
+                if (it[0] == "list") {
+                    val pageSize = 25
+                    return when (it[1]) {
+                        "all" -> createPageList(EventChecker.eventNames, pageSize)
+                        "blacklist" -> {
+                            createPageList(EventChecker.instance.config.getStringList("excluded-events"), pageSize)
+                        }
+                        "whitelist" -> {
+                            createPageList(EventChecker.instance.config.getStringList("included-events"), pageSize)
+                        }
+                        else -> emptyList()
+                    }
+                }
 
+            }
+        }
         return emptyList()
     }
+}
+
+
+/**
+ * Creates a list of page numbers based on a given list and page size.
+ *
+ * @param list The input list of elements.
+ * @param pageSize The number of elements per page.
+ * @return The list of page numbers as strings.
+ */
+fun createPageList(list: List<String>, pageSize: Int): List<String> {
+    return Lists.partition(list, pageSize).indices.map { (it + 1).toString() }
 }

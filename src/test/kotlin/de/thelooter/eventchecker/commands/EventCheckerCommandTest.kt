@@ -65,4 +65,27 @@ internal class EventCheckerCommandTest {
         player.performCommand("eventchecker list all 1000")
         player.assertSaid("§cThis page does not exist!")
     }
+
+    @Test
+    fun testListBlacklist() {
+        player.addAttachment(EventChecker.instance, "eventchecker.admin", true)
+        player.performCommand("eventchecker list blacklist")
+        player.assertSaid("§cUsage: /eventchecker list blacklist <page>")
+    }
+
+    @Test
+    fun testListWhitelist() {
+        player.addAttachment(EventChecker.instance, "eventchecker.admin", true)
+        player.performCommand("eventchecker list whitelist")
+        player.assertSaid("§cUsage: /eventchecker list whitelist <page>")
+    }
+
+    @Test
+    fun testListBlacklistPage() {
+        player.addAttachment(EventChecker.instance, "eventchecker.admin", true)
+        player.performCommand("eventchecker list blacklist 1")
+        player.assertSaid("§cThe blacklist is empty!")
+        Assertions.assertNull(player.nextMessage())
+    }
+
 }

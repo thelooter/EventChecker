@@ -19,7 +19,7 @@ open class EventChecker : JavaPlugin() {
     companion object {
         var eventNames: MutableList<String> = ArrayList()
         lateinit var instance: JavaPlugin
-        private val eventTaskManager = EventTaskManager()
+        val eventTaskManager = EventTaskManager()
     }
 
     /**
@@ -31,7 +31,7 @@ open class EventChecker : JavaPlugin() {
         val events = ClassGraph()
             .enableClassInfo()
             .scan()
-            .getClassInfo(Event::class.java.getName())
+            .getClassInfo(Event::class.java.name)
             .subclasses
             .filter { info: ClassInfo -> !info.isAbstract }
 
