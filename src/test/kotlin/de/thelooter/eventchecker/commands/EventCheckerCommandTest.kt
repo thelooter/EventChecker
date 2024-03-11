@@ -41,7 +41,7 @@ internal class EventCheckerCommandTest {
     fun testList() {
         player.addAttachment(EventChecker.instance, "eventchecker.admin", true)
         player.performCommand("eventchecker list")
-        player.assertSaid("§cUsage: /eventchecker list <all> <page>")
+        player.assertSaid("§cUsage: /eventchecker list <all|blacklist|whitelist> <page>")
     }
 
     @Test

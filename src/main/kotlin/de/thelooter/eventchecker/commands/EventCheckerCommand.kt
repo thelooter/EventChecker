@@ -32,7 +32,7 @@ class EventCheckerCommand : CommandExecutor {
             }
 
             if (it.size == 1 && it[0] == "list") {
-                sender.sendMessage("§cUsage: /eventchecker list <all|$BLACKLIST_KEY|$WHITELIST_KEY> <page>")
+                sender.sendMessage("§cUsage: /eventchecker list <$ALL_KEY|$BLACKLIST_KEY|$WHITELIST_KEY> <page>")
                 return true
             }
 
