@@ -15,11 +15,7 @@ import java.util.function.Consumer
 class EventCheckerCommand : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
 
-        val simpleEventNames = EventChecker.eventNames.map {
-            it.substring(it.lastIndexOf(".") + 1)
-        }
-
-        args?.let { it ->
+        args?.let {
             if (!sender.hasPermission("eventchecker.admin")) {
                 sender.sendMessage("§cYou don't have the permission to execute the command")
                 return true
@@ -55,11 +51,7 @@ class EventCheckerCommand : CommandExecutor {
                         return true
                     }
                     sender.sendMessage("§7Events (Page $page):")
-                    partition[page - 1].forEach(Consumer { event: String ->
-                        sender.sendMessage(
-                            "§8- §7$event"
-                        )
-                    })
+                    sendEvents(partition, page, sender)
                 }
                 if (it[1] == "blacklist") {
                     if (!EventChecker.instance.config.getBoolean("blacklist", false)) {
@@ -84,11 +76,7 @@ class EventCheckerCommand : CommandExecutor {
                     }
 
                     sender.sendMessage("§7Blacklisted Events (Page $page):")
-                    partition[page - 1].forEach(Consumer { event: String ->
-                        sender.sendMessage(
-                            "§8- §7$event"
-                        )
-                    })
+                    sendEvents(partition, page, sender)
 
                     return true
                 }
@@ -116,11 +104,7 @@ class EventCheckerCommand : CommandExecutor {
                     }
 
                     sender.sendMessage("§7Whitelisted Events (Page $page):")
-                    partition[page - 1].forEach(Consumer { event: String ->
-                        sender.sendMessage(
-                            "§8- §7$event"
-                        )
-                    })
+                    sendEvents(partition, page, sender)
 
                     return true
                 }
@@ -128,6 +112,18 @@ class EventCheckerCommand : CommandExecutor {
             }
         }
         return true
+    }
+
+    private fun sendEvents(
+        partition: MutableList<MutableList<String>>,
+        page: Int,
+        sender: CommandSender
+    ) {
+        partition[page - 1].forEach(Consumer { event: String ->
+            sender.sendMessage(
+                "§8- §7$event"
+            )
+        })
     }
 
     private fun sendListUsageCommand(sender: CommandSender, listType: String): Boolean {
