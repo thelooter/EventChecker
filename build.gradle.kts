@@ -63,7 +63,7 @@ tasks {
         dependsOn(test)
     }
 
-    build {
+    check {
         dependsOn(jacocoTestReport)
     }
 
