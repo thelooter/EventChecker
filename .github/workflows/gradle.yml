@@ -49,6 +49,9 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
+      - name: Build with Gradle
+        run: ./gradlew build
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         env:
