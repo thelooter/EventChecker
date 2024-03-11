@@ -35,27 +35,13 @@ class EventCheckerCommand : CommandExecutor {
                 return true
             }
 
-            if (it.size == 2 && it[0] == "list" && it[1] == "all") {
-                sender.sendMessage("§cUsage: /eventchecker list all <page>")
-                return true
-            }
-
-                    EventChecker.eventNames.forEach {
-                        if (it.substring(it.lastIndexOf(".") + 1) == args[1]) {
-                            val classInfo = getClassInfoFromName(it)
-                            EventChecker.eventTaskManager.addTask(EventRegistrationTask(classInfo))
-
-                            EventChecker.eventTaskManager.processTasks()
-
-                            sender.sendMessage(
-                                "§7Enabled event §8- §7${
-                                    it.substring(it.lastIndexOf(".") + 1)
-                                }"
-                            )
-                        }
-                    }
+            if (it.size == 2 && it[0] == "list") {
+                val listType = it[1]
+                if (listType == "all" || listType == "blacklist" || listType == "whitelist") {
+                    return sendListUsageCommand(sender, listType)
                 }
             }
+
 
             if (it.size == 3 && it[0] == "list") {
 
@@ -139,4 +125,13 @@ class EventCheckerCommand : CommandExecutor {
                     return true
                 }
 
+            }
+        }
+        return true
+    }
+
+    private fun sendListUsageCommand(sender: CommandSender, listType: String): Boolean {
+        sender.sendMessage("§cUsage: /eventchecker list $listType <page>")
+        return true
+    }
 }
