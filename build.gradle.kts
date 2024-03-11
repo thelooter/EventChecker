@@ -2,7 +2,6 @@ plugins {
     kotlin("jvm") version "1.9.23"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     jacoco
-    id("org.sonarqube") version "4.4.1.3373"
     id("maven-publish")
 }
 
@@ -68,15 +67,6 @@ tasks {
         dependsOn(jacocoTestReport)
     }
 
-}
-
-sonar {
-    properties {
-        property("sonar.projectKey", "thelooter_EventChecker")
-        property("sonar.organization", "thelooter")
-        property("sonar.projectVersion", jarVersion)
-        property("sonar.host.url", "https://sonarcloud.io")
-    }
 }
 
 
