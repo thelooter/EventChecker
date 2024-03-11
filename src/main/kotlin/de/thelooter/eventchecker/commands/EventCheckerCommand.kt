@@ -1,5 +1,6 @@
 package de.thelooter.eventchecker.commands
 
+import com.google.common.collect.ImmutableList
 import com.google.common.collect.Lists
 import de.thelooter.eventchecker.EventChecker
 import org.bukkit.command.Command
@@ -46,10 +47,7 @@ class EventCheckerCommand : CommandExecutor {
                 if (it[1] == "all") {
                     val partition = Lists.partition<String>(EventChecker.eventNames, pageSize)
                     val page = it[2].toInt()
-                    if (page > partition.size + 1) {
-                        sender.sendMessage("§cThis page does not exist!")
-                        return true
-                    }
+                    if (handleNonExistentPage(page, partition, sender)) return true
                     sender.sendMessage("§7Events (Page $page):")
                     sendEvents(partition, page, sender)
                 }
@@ -70,10 +68,7 @@ class EventCheckerCommand : CommandExecutor {
 
                     val page = it[2].toInt()
 
-                    if (page > partition.size + 1) {
-                        sender.sendMessage("§cThis page does not exist!")
-                        return true
-                    }
+                    if (handleNonExistentPage(page, partition, sender)) return true
 
                     sender.sendMessage("§7Blacklisted Events (Page $page):")
                     sendEvents(partition, page, sender)
@@ -98,10 +93,7 @@ class EventCheckerCommand : CommandExecutor {
 
                     val page = it[2].toInt()
 
-                    if (page > partition.size + 1) {
-                        sender.sendMessage("§cThis page does not exist!")
-                        return true
-                    }
+                    if (handleNonExistentPage(page, partition, sender)) return true
 
                     sender.sendMessage("§7Whitelisted Events (Page $page):")
                     sendEvents(partition, page, sender)
@@ -114,8 +106,20 @@ class EventCheckerCommand : CommandExecutor {
         return true
     }
 
-    private fun sendEvents(
+    private fun handleNonExistentPage(
+        page: Int,
         partition: MutableList<MutableList<String>>,
+        sender: CommandSender
+    ): Boolean {
+        if (page > partition.size + 1) {
+            sender.sendMessage("§cThis page does not exist!")
+            return true
+        }
+        return false
+    }
+
+    private fun sendEvents(
+        partition: List<MutableList<String>>,
         page: Int,
         sender: CommandSender
     ) {

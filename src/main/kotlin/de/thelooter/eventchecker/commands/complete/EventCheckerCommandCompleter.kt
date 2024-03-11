@@ -19,7 +19,7 @@ class EventCheckerCommandCompleter : TabCompleter {
         args: Array<out String>?
     ): List<String> {
 
-        args?.let { it ->
+        args?.let {
 
             if (it.size == 1) {
                 return listOf("reload", "list")
@@ -29,30 +29,28 @@ class EventCheckerCommandCompleter : TabCompleter {
                 return listOf("all", "blacklist", "whitelist")
             }
 
-            if (it.size == 3) {
-                if (it[0] == "list") {
-                    val pageSize = 25
-                    return when (it[1]) {
-                        "all" -> createPageList(EventChecker.eventNames, pageSize)
-                        "blacklist" -> {
-                            createPageList(
-                                EventChecker.instance.config.getStringList("excluded-events"),
-                                pageSize
-                            )
-                        }
-
-                        "whitelist" -> {
-                            createPageList(
-                                EventChecker.instance.config.getStringList("included-events"),
-                                pageSize
-                            )
-                        }
-
-                        else -> emptyList()
+            if (it.size == 3 && it[0] == "list") {
+                val pageSize = 25
+                return when (it[1]) {
+                    "all" -> createPageList(EventChecker.eventNames, pageSize)
+                    "blacklist" -> {
+                        createPageList(
+                            EventChecker.instance.config.getStringList("excluded-events"),
+                            pageSize
+                        )
                     }
-                }
 
+                    "whitelist" -> {
+                        createPageList(
+                            EventChecker.instance.config.getStringList("included-events"),
+                            pageSize
+                        )
+                    }
+
+                    else -> emptyList()
+                }
             }
+
         }
         return emptyList()
     }
