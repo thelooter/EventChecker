@@ -1,6 +1,5 @@
 package de.thelooter.eventchecker.commands
 
-import com.google.common.collect.ImmutableList
 import com.google.common.collect.Lists
 import de.thelooter.eventchecker.EventChecker
 import org.bukkit.command.Command
@@ -14,6 +13,11 @@ import java.util.function.Consumer
  * @since 1.2.0
  */
 class EventCheckerCommand : CommandExecutor {
+    companion object {
+        private var BLACKLIST_KEY = "blacklist"
+        private var WHITELIST_KEY = "whitelist"
+        private var ALL_KEY = "all"
+    }
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
 
         args?.let {
@@ -28,13 +32,13 @@ class EventCheckerCommand : CommandExecutor {
             }
 
             if (it.size == 1 && it[0] == "list") {
-                sender.sendMessage("§cUsage: /eventchecker list <all> <page>")
+                sender.sendMessage("§cUsage: /eventchecker list <all|$BLACKLIST_KEY|$WHITELIST_KEY> <page>")
                 return true
             }
 
             if (it.size == 2 && it[0] == "list") {
                 val listType = it[1]
-                if (listType == "all" || listType == "blacklist" || listType == "whitelist") {
+                if (listType == ALL_KEY || listType == BLACKLIST_KEY || listType == WHITELIST_KEY) {
                     return sendListUsageCommand(sender, listType)
                 }
             }
@@ -44,24 +48,18 @@ class EventCheckerCommand : CommandExecutor {
 
                 val pageSize = 25
 
-                if (it[1] == "all") {
+                if (it[1] == ALL_KEY) {
                     val partition = Lists.partition<String>(EventChecker.eventNames, pageSize)
                     val page = it[2].toInt()
                     if (handleNonExistentPage(page, partition, sender)) return true
                     sender.sendMessage("§7Events (Page $page):")
                     sendEvents(partition, page, sender)
                 }
-                if (it[1] == "blacklist") {
-                    if (!EventChecker.instance.config.getBoolean("blacklist", false)) {
-                        sender.sendMessage("§cThe blacklist is disabled!")
-                        return true
-                    }
+                if (it[1] == BLACKLIST_KEY) {
+                    if (isListTypeEnabled(sender, BLACKLIST_KEY)) return true
                     val partition = handlePartition(pageSize, "excluded-events")
 
-                    if (partition.isEmpty()) {
-                        sender.sendMessage("§cThe blacklist is empty!")
-                        return true
-                    }
+                    if (handleEmptyPartition(partition, sender, BLACKLIST_KEY)) return true
 
                     val page = it[2].toInt()
 
@@ -73,17 +71,11 @@ class EventCheckerCommand : CommandExecutor {
                     return true
                 }
 
-                if (it[1] == "whitelist") {
-                    if (!EventChecker.instance.config.getBoolean("whitelist", false)) {
-                        sender.sendMessage("§cThe whitelist is disabled!")
-                        return true
-                    }
+                if (it[1] == WHITELIST_KEY) {
+                    if (isListTypeEnabled(sender, WHITELIST_KEY)) return true
                     val partition = handlePartition(pageSize, "included-events")
 
-                    if (partition.isEmpty()) {
-                        sender.sendMessage("§cThe whitelist is empty!")
-                        return true
-                    }
+                    if (handleEmptyPartition(partition, sender, WHITELIST_KEY)) return true
 
                     val page = it[2].toInt()
 
@@ -98,6 +90,26 @@ class EventCheckerCommand : CommandExecutor {
             }
         }
         return true
+    }
+
+    private fun handleEmptyPartition(
+        partition: List<List<String>>,
+        sender: CommandSender,
+        listType: String
+    ): Boolean {
+        if (partition.isEmpty()) {
+            sender.sendMessage("§cThe $listType is empty!")
+            return true
+        }
+        return false
+    }
+
+    private fun isListTypeEnabled(sender: CommandSender,listType: String): Boolean {
+        if (!EventChecker.instance.config.getBoolean(listType, false)) {
+            sender.sendMessage("§cThe $listType is disabled!")
+            return true
+        }
+        return false
     }
 
     private fun handleNonExistentPage(
