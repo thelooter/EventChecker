@@ -16,7 +16,7 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=bugs)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=thelooter_EventChecker&metric=coverage)](https://sonarcloud.io/summary/new_code?id=thelooter_EventChecker)
+[![codecov](https://codecov.io/github/thelooter/EventChecker/graph/badge.svg?token=E1HQLS1WHV)](https://codecov.io/github/thelooter/EventChecker)
 
 Plugin to help Developers check which events are getting Fired by the Server.
 Events can be disabled in the config file.
@@ -28,7 +28,8 @@ Events can be disabled in the config file.
 - Prints out Events that get Fired
 - Possibility to switch between a Whitelist and a Blacklist
 - List All Events that are possible to be Fired
-
+- List Events in Blacklist
+- List Events in Whitelist
 
 ## Planned Features
 
@@ -42,6 +43,8 @@ Events can be disabled in the config file.
 2. Put the jar file into your plugins folder
 3. Restart your server
 
+---
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 If SonarCloud reports Bugs, Vulnerabilities or Code Smells, please either fix them or state why you can't fix them.
@@ -50,4 +53,4 @@ If SonarCloud reports Bugs, Vulnerabilities or Code Smells, please either fix th
 - [thelooter](https://github,com/thelooter) - Creator
 
 ## License
-[AGPL-3.0](https://choosealicense.com/licenses/agpl-3.0/)
+[MIT](https://choosealicense.com/licenses/mit/)
