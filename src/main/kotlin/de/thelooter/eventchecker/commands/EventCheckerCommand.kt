@@ -56,12 +56,9 @@ class EventCheckerCommand : CommandExecutor {
                         sender.sendMessage("§cThe blacklist is disabled!")
                         return true
                     }
-                    val partition = Lists.partition(
-                        EventChecker.instance.config.getStringList("excluded-events"),
-                        pageSize
-                    )
+                    val partition = handlePartition(pageSize, "excluded-events")
 
-                    if (partition.size == 0) {
+                    if (partition.isEmpty()) {
                         sender.sendMessage("§cThe blacklist is empty!")
                         return true
                     }
@@ -81,12 +78,9 @@ class EventCheckerCommand : CommandExecutor {
                         sender.sendMessage("§cThe whitelist is disabled!")
                         return true
                     }
-                    val partition = Lists.partition(
-                        EventChecker.instance.config.getStringList("included-events"),
-                        pageSize
-                    )
+                    val partition = handlePartition(pageSize, "included-events")
 
-                    if (partition.size == 0) {
+                    if (partition.isEmpty()) {
                         sender.sendMessage("§cThe whitelist is empty!")
                         return true
                     }
@@ -108,7 +102,7 @@ class EventCheckerCommand : CommandExecutor {
 
     private fun handleNonExistentPage(
         page: Int,
-        partition: MutableList<MutableList<String>>,
+        partition: List<List<String>>,
         sender: CommandSender
     ): Boolean {
         if (page > partition.size + 1) {
@@ -119,7 +113,7 @@ class EventCheckerCommand : CommandExecutor {
     }
 
     private fun sendEvents(
-        partition: List<MutableList<String>>,
+        partition: List<List<String>>,
         page: Int,
         sender: CommandSender
     ) {
@@ -133,5 +127,9 @@ class EventCheckerCommand : CommandExecutor {
     private fun sendListUsageCommand(sender: CommandSender, listType: String): Boolean {
         sender.sendMessage("§cUsage: /eventchecker list $listType <page>")
         return true
+    }
+
+    private fun handlePartition(pageSize: Int, inputList: String): List<List<String>> {
+        return Lists.partition(EventChecker.instance.config.getStringList(inputList), pageSize)
     }
 }
