@@ -20,7 +20,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.23")
     implementation("io.github.classgraph:classgraph:4.8.168")
     implementation("org.apache.commons:commons-lang3:3.14.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.78.0")
