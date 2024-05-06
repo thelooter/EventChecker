@@ -17,7 +17,7 @@ dependencies {
     compileOnly("org.jetbrains:annotations:24.1.0")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.23")
-    implementation("io.github.classgraph:classgraph:4.8.168")
+    implementation("io.github.classgraph:classgraph:4.8.172")
     implementation("org.apache.commons:commons-lang3:3.14.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 
