@@ -24,6 +24,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.86.1")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 val jarVersion = "1.5.0"

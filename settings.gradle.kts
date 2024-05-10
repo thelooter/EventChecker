@@ -3,3 +3,7 @@ plugins {
 }
 
 rootProject.name = "eventchecker"
+
+develocity {
+    server = "https://scans.gradle.com"
+}
