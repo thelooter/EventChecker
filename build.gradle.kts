@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.24"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.github.goooler.shadow") version "8.1.7"
     jacoco
     id("maven-publish")
 }
@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
     compileOnly("org.jetbrains:annotations:24.1.0")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.24")
@@ -24,14 +24,16 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.86.1")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-val jarVersion = "1.4.0"
+val jarVersion = "1.5.0"
 
 tasks {
 
     java {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+        toolchain.languageVersion.set(JavaLanguageVersion.of(21))
     }
 
     shadowJar {
