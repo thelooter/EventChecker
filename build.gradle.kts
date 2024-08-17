@@ -18,7 +18,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0")
     implementation("io.github.classgraph:classgraph:4.8.174")
-    implementation("org.apache.commons:commons-lang3:3.15.0")
+    implementation("org.apache.commons:commons-lang3:3.16.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.0")
