@@ -21,7 +21,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.15.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.0")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.93.2")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
 
