@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm") version "2.0.21"
     id("io.github.goooler.shadow") version "8.1.8"
     jacoco
     id("maven-publish")
