@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
-    compileOnly("org.jetbrains:annotations:26.0.0")
+    compileOnly("org.jetbrains:annotations:26.0.1")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
     implementation("io.github.classgraph:classgraph:4.8.175")
