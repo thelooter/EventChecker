@@ -23,7 +23,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.2")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.93.2")
-    testImplementation("org.hamcrest:hamcrest-library:2.2")
+    testImplementation("org.hamcrest:hamcrest-library:3.0")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
