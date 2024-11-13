@@ -3,7 +3,6 @@ plugins {
     id("io.github.goooler.shadow") version "8.1.8"
     jacoco
     id("maven-publish")
-    id("org.openrewrite.rewrite") version "6.27.0"
 }
 
 repositories {
@@ -28,12 +27,6 @@ dependencies {
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    rewrite("org.mockbukkit.rewrite:openrewrite-recipes:1.0.2")
-}
-
-rewrite {
-    activeRecipe("org.mockbukkit.rewrite.PackageRename")
-    activeRecipe("org.mockbukkit.rewrite.ClassRename")
 }
 
 val jarVersion = "1.5.0"
