@@ -3,7 +3,7 @@ plugins {
     id("io.github.goooler.shadow") version "8.1.8"
     jacoco
     id("maven-publish")
-    id("org.openrewrite.rewrite") version "6.26.0"
+    id("org.openrewrite.rewrite") version "6.27.0"
 }
 
 repositories {
