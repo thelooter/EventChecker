@@ -1,10 +1,10 @@
 package de.thelooter.eventchecker.commands.complete
 
-import be.seeseemelk.mockbukkit.MockBukkit
-import be.seeseemelk.mockbukkit.MockBukkitExtension
-import be.seeseemelk.mockbukkit.MockBukkitInject
-import be.seeseemelk.mockbukkit.ServerMock
-import be.seeseemelk.mockbukkit.entity.PlayerMock
+import org.mockbukkit.mockbukkit.MockBukkit
+import org.mockbukkit.mockbukkit.MockBukkitExtension
+import org.mockbukkit.mockbukkit.MockBukkitInject
+import org.mockbukkit.mockbukkit.ServerMock
+import org.mockbukkit.mockbukkit.entity.PlayerMock
 import de.thelooter.eventchecker.EventChecker
 import org.bukkit.permissions.PermissionAttachment
 import org.junit.jupiter.api.Assertions.assertFalse

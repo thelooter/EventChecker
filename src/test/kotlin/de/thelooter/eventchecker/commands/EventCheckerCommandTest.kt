@@ -1,7 +1,7 @@
 package de.thelooter.eventchecker.commands
 
-import be.seeseemelk.mockbukkit.MockBukkit
-import be.seeseemelk.mockbukkit.entity.PlayerMock
+import org.mockbukkit.mockbukkit.MockBukkit
+import org.mockbukkit.mockbukkit.entity.PlayerMock
 import de.thelooter.eventchecker.EventChecker
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
