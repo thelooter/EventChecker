@@ -1,3 +1,5 @@
+import java.lang.Runtime
+
 plugins {
     kotlin("jvm") version "2.0.21"
     id("io.github.goooler.shadow") version "8.1.8"
@@ -50,6 +52,7 @@ tasks {
 
     test {
         useJUnitPlatform()
+        maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
     }
 
     jacoco {
