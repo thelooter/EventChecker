@@ -18,7 +18,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
     compileOnly("org.jetbrains:annotations:26.0.1")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.0")
     implementation("io.github.classgraph:classgraph:4.8.179")
     implementation("org.apache.commons:commons-lang3:3.17.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
