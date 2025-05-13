@@ -1,7 +1,7 @@
 import java.lang.Runtime
 
 plugins {
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm") version "2.1.21"
     id("io.github.goooler.shadow") version "8.1.8"
     jacoco
     id("maven-publish")
