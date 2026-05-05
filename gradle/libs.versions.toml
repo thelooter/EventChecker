@@ -1,0 +1,30 @@
+[versions]
+classgraph = "4.8.179"
+commons-lang3 = "3.17.0"
+hamcrest = "3.0"
+jetbrains-annotations = "26.0.1"
+junit = "5.14.4"
+kotlin = "2.1.0"
+kotlinx-coroutines = "1.10.1"
+mockbukkit = "4.25.1"
+paper = "1.21.3-R0.1-SNAPSHOT"
+
+shadow = "9.2.2"
+
+[libraries]
+paper-api = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
+jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrains-annotations" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+classgraph = { group = "io.github.classgraph", name = "classgraph", version.ref = "classgraph" }
+apache-commons-lang3 = { group = "org.apache.commons", name = "commons-lang3", version.ref = "commons-lang3" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
+hamcrest = { group = "org.hamcrest", name = "hamcrest-library", version.ref = "hamcrest" }
+mockbukkit = { group = "org.mockbukkit.mockbukkit", name = "mockbukkit-v1.21", version.ref = "mockbukkit" }
+
+[plugins]
+gradleup-shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+maven-publish = { id = "maven-publish" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+jacoco = { id = "org.gradle.jacoco" }

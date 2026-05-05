@@ -1,37 +1,35 @@
-import java.lang.Runtime
-
 plugins {
-    kotlin("jvm") version "2.1.20"
-    id("io.github.goooler.shadow") version "8.1.8"
-    jacoco
-    id("maven-publish")
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        url = uri("https://repo.papermc.io/repository/maven-public/")
-    }
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.gradleup.shadow)
+    alias(libs.plugins.jacoco)
+    alias(libs.plugins.maven.publish)
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
-    compileOnly("org.jetbrains:annotations:26.0.1")
+    compileOnly(libs.paper.api)
+    compileOnly(libs.jetbrains.annotations)
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.0")
-    implementation("io.github.classgraph:classgraph:4.8.179")
-    implementation("org.apache.commons:commons-lang3:3.17.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.classgraph)
+    implementation(libs.apache.commons.lang3)
+    implementation(libs.kotlinx.coroutines.core)
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.14.4")
-    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.25.1")
-    testImplementation("org.hamcrest:hamcrest-library:3.0")
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.mockbukkit)
+    testImplementation(libs.hamcrest)
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly(libs.junit.platform.launcher)
 
 }
 
-val jarVersion = "1.5.0"
+dependencyLocking {
+    lockAllConfigurations()
+
+    ignoredDependencies.add("io.papermc.paper:paper-api")
+}
+
+version = "1.5.0"
+group = "de.thelooter"
 
 tasks {
 
@@ -39,20 +37,36 @@ tasks {
         toolchain.languageVersion.set(JavaLanguageVersion.of(21))
     }
 
+    kotlin {
+        jvmToolchain(21)
+    }
+
+    jar {
+        archiveVersion.set(project.version.toString())
+    }
+
     shadowJar {
         relocate("io.github.classgraph", "de.thelooter.classgraph")
         relocate("org.apache.commons", "de.thelooter.commons")
 
-        archiveFileName.set("eventchecker-$jarVersion.jar")
+        archiveBaseName.set("eventchecker")
+        archiveClassifier.set("")
+        archiveVersion.set(project.version.toString())
+
+        mergeServiceFiles()
     }
 
-    jar {
+    assemble {
         dependsOn(shadowJar)
     }
 
     test {
         useJUnitPlatform()
-        maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
+        maxParallelForks = providers.gradleProperty("test.maxParallelForks")
+            .map(String::toInt)
+            .getOrElse((Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1))
+
+        finalizedBy(jacocoTestReport)
     }
 
     jacoco {
@@ -65,24 +79,47 @@ tasks {
             html.required.set(true)
             html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
         }
-        dependsOn(test)
+    }
+
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                limit {
+                    counter = "INSTRUCTION"
+                    value = "COVEREDRATIO"
+                    minimum = "0.85".toBigDecimal()
+                }
+                limit {
+                    counter = "BRANCH"
+                    value = "COVEREDRATIO"
+                    minimum = "0.60".toBigDecimal()
+                }
+            }
+        }
+
+        dependsOn(jacocoTestReport)
     }
 
     check {
         dependsOn(jacocoTestReport)
+        dependsOn(jacocoTestCoverageVerification)
+    }
+
+    withType<AbstractArchiveTask>().configureEach {
+        isPreserveFileTimestamps = false
+        isReproducibleFileOrder = true
     }
 
 }
 
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "de.thelooter"
+            groupId = project.group.toString()
             artifactId = "eventchecker"
-            version = jarVersion
+            version = project.version.toString()
 
-            from(components["java"])
+            artifact(tasks.shadowJar)
         }
     }
 
@@ -91,8 +128,14 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/thelooter/EventChecker")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username =
+                    providers.gradleProperty("gpr.user")
+                        .orElse(providers.environmentVariable("GITHUB_ACTOR"))
+                        .orNull
+                password =
+                    providers.gradleProperty("gpr.key")
+                        .orElse(providers.environmentVariable("GITHUB_TOKEN"))
+                        .orNull
             }
         }
     }
