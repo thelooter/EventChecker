@@ -14,10 +14,12 @@ dependencies {
     implementation(libs.apache.commons.lang3)
     implementation(libs.kotlinx.coroutines.core)
 
+    testImplementation(libs.paper.api)
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.mockbukkit)
     testImplementation(libs.hamcrest)
 
+    testRuntimeOnly(libs.junit.jupiter.engine)
     testRuntimeOnly(libs.junit.platform.launcher)
 
 }
@@ -43,6 +45,7 @@ tasks {
 
     jar {
         archiveVersion.set(project.version.toString())
+        archiveClassifier.set("plain")
     }
 
     shadowJar {
@@ -70,7 +73,7 @@ tasks {
     }
 
     jacoco {
-        toolVersion = "0.8.12"
+        toolVersion = "0.8.15"
     }
 
     jacocoTestReport {

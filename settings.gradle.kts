@@ -6,7 +6,7 @@ pluginManagement {
 }
 
 plugins {
-    id("com.gradle.develocity") version "4.0.1"
+    id("com.gradle.develocity") version "4.5.0"
 }
 
 rootProject.name = "eventchecker"
